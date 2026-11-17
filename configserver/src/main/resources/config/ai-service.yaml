@@ -1,0 +1,37 @@
+spring:
+  mongodb:
+    uri: mongodb://localhost:27017/aiactivityrecommendation
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: activity-processor-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.use.type.headers: false
+        spring.json.value.default.type: com.fitness.aiservice.models.Activity
+        spring.json.trusted.packages: "*"
+        max.poll.interval.ms: 600000
+        max.poll.records: 1
+
+kafka:
+  topic:
+    name: activity-events
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+server:
+  port: 8083
+
+gemini:
+  api:
+    url: ${GEMINI_URL}
+    key: ${GEMINI_KEY}
+
